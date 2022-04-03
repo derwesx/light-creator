@@ -58,22 +58,36 @@ colors = [[255, 0, 0], [0, 255, 0], [100, 0, 255], [0, 100, 255], [255, 0, 100],
 def createScene():
     global lastScene
     while True:
-        if isSceneGenerating:
-            if time.perf_counter() - lastScene > 3:
-                for nw in scene:
-                    dmxData[nw.data[DIM]] = 0
-                    dmxData[nw.data[SHUTTER]] = 0
-                a, b, c, d = randint(0, 14), randint(0, 14), randint(0, 14), randint(0, 14)
-                zoom = randint(200, 255)
-                for nw in scene:
-                    if nw.data[GROUP] == a or nw.data[GROUP] == b or nw.data[GROUP] == c or nw.data[GROUP] == d:
-                        dmxData[nw.data[DIM]] = 255
-                        dmxData[nw.data[ZOOM]] = zoom
-                        r, g, b = choice(colors)
-                        dmxData[nw.data[R]] = r
-                        dmxData[nw.data[G]] = g
-                        dmxData[nw.data[B]] = b
-                lastScene = time.perf_counter()
+        lastTimeCounter = time.perf_counter()
+        for nw in scene:
+            dmxData[nw.data[DIM]] = 0
+            dmxData[nw.data[SHUTTER]] = 0
+        a, b, c, d = randint(0, 14), randint(0, 14), randint(0, 14), randint(0, 14)
+        zoom = randint(200, 255)
+        ac = choice(colors)
+        bc = choice(colors)
+        cc = choice(colors)
+        dc = choice(colors)
+        for nw in scene:
+            if nw.data[GROUP] == a or nw.data[GROUP] == b or nw.data[GROUP] == c or nw.data[GROUP] == d:
+                dmxData[nw.data[DIM]] = 255
+                dmxData[nw.data[ZOOM]] = zoom
+            if nw.data[GROUP] == a:
+                dmxData[nw.data[R]] = ac[0]
+                dmxData[nw.data[G]] = ac[1]
+                dmxData[nw.data[B]] = ac[2]
+            if nw.data[GROUP] == b:
+                dmxData[nw.data[R]] = bc[0]
+                dmxData[nw.data[G]] = bc[1]
+                dmxData[nw.data[B]] = bc[2]
+            if nw.data[GROUP] == c:
+                dmxData[nw.data[R]] = cc[0]
+                dmxData[nw.data[G]] = cc[1]
+                dmxData[nw.data[B]] = cc[2]
+            if nw.data[GROUP] == d:
+                dmxData[nw.data[R]] = dc[0]
+                dmxData[nw.data[G]] = dc[1]
+                dmxData[nw.data[B]] = dc[2]
 
 countTapsLeft = 3
 firstTap = 0
@@ -211,7 +225,7 @@ def updateDmx():
                 elif i == "B":
                     num = B
                 for nw in scene:
-                    dmxData[nw.data[num]] = 0
+                    sendingData[nw.data[num]] = 0
                 continue
             for nw in scene:
                 if nw.data[TYPE] == str(i):
@@ -333,8 +347,9 @@ def lightning():
         while time.perf_counter() - timeNow < 1:
             continue
         for nw in cur:
-            sendingData[nw.data[R]] = randint(100, 255)
-            sendingData[nw.data[G]] = randint(100, 255)
+            sendingData[nw.data[R]] = 255
+            sendingData[nw.data[G]] = 255
+            sendingData[nw.data[B]] = 255
             sendingData[nw.data[RGB]] = choice([12, 4])
             sendingData[nw.data[DIM]] = 255
             sendingData[nw.data[SHUTTER]] = 120
@@ -538,7 +553,7 @@ def main():
     savedData = readDiscoScene()
     saveData()
     threading.Thread(target = updateDmx).start()
-    threading.Thread(target = createScene).start()
+    
     app.mainloop()
 
 if __name__ == "__main__":
