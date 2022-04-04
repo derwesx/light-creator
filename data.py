@@ -34,9 +34,8 @@ class Projector(object):
         self.data[G] = 0
         self.data[B] = 0
 
-scene = []
-
 def getData():
+    scene = []
     pIn = open("data/infoProjectors.datP", "r")
     lines = pIn.readlines()
     for line in lines:
@@ -47,15 +46,6 @@ def getData():
         print("|{} {}| ".format(nw.data[TYPE][0], nw.data[DIM]), end = "")
     pIn.close()
     return scene
-
-def saveData():
-    pOut = open("data/infoProjectors.datP", "w+")
-    for nw in scene:
-        data = ""
-        for i in range(0, 14):
-            data += str(nw.data[i]) + "|"
-        print(data, file = pOut)
-    pOut.close()
 
 def readDiscoScene():
     global savedScenes

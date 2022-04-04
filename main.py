@@ -52,42 +52,44 @@ class Projector(object):
         for i in range(1, 14):
             data[i] = int(data[i])
 
-lastScene = time.perf_counter()
-
 colors = [[255, 0, 0], [0, 255, 0], [100, 0, 255], [0, 100, 255], [255, 0, 100], [240, 150, 40]]
 def createScene():
-    global lastScene
+    global isSceneGenerating
     while True:
         lastTimeCounter = time.perf_counter()
-        for nw in scene:
-            dmxData[nw.data[DIM]] = 0
-            dmxData[nw.data[SHUTTER]] = 0
-        a, b, c, d = randint(0, 14), randint(0, 14), randint(0, 14), randint(0, 14)
-        zoom = randint(200, 255)
-        ac = choice(colors)
-        bc = choice(colors)
-        cc = choice(colors)
-        dc = choice(colors)
-        for nw in scene:
-            if nw.data[GROUP] == a or nw.data[GROUP] == b or nw.data[GROUP] == c or nw.data[GROUP] == d:
-                dmxData[nw.data[DIM]] = 255
-                dmxData[nw.data[ZOOM]] = zoom
-            if nw.data[GROUP] == a:
-                dmxData[nw.data[R]] = ac[0]
-                dmxData[nw.data[G]] = ac[1]
-                dmxData[nw.data[B]] = ac[2]
-            if nw.data[GROUP] == b:
-                dmxData[nw.data[R]] = bc[0]
-                dmxData[nw.data[G]] = bc[1]
-                dmxData[nw.data[B]] = bc[2]
-            if nw.data[GROUP] == c:
-                dmxData[nw.data[R]] = cc[0]
-                dmxData[nw.data[G]] = cc[1]
-                dmxData[nw.data[B]] = cc[2]
-            if nw.data[GROUP] == d:
-                dmxData[nw.data[R]] = dc[0]
-                dmxData[nw.data[G]] = dc[1]
-                dmxData[nw.data[B]] = dc[2]
+        if not isSceneGenerating:
+            continue
+        if time.perf_counter() - lastTimeCounter > 3:
+            lastTimeCounter = time.perf_counter()
+            for nw in scene:
+                dmxData[nw.data[DIM]] = 0
+                dmxData[nw.data[SHUTTER]] = 0
+            a, b, c, d = randint(0, 14), randint(0, 14), randint(0, 14), randint(0, 14)
+            zoom = randint(200, 255)
+            ac = choice(colors)
+            bc = choice(colors)
+            cc = choice(colors)
+            dc = choice(colors)
+            for nw in scene:
+                if nw.data[GROUP] == a or nw.data[GROUP] == b or nw.data[GROUP] == c or nw.data[GROUP] == d:
+                    dmxData[nw.data[DIM]] = 255
+                    dmxData[nw.data[ZOOM]] = zoom
+                if nw.data[GROUP] == a:
+                    dmxData[nw.data[R]] = ac[0]
+                    dmxData[nw.data[G]] = ac[1]
+                    dmxData[nw.data[B]] = ac[2]
+                if nw.data[GROUP] == b:
+                    dmxData[nw.data[R]] = bc[0]
+                    dmxData[nw.data[G]] = bc[1]
+                    dmxData[nw.data[B]] = bc[2]
+                if nw.data[GROUP] == c:
+                    dmxData[nw.data[R]] = cc[0]
+                    dmxData[nw.data[G]] = cc[1]
+                    dmxData[nw.data[B]] = cc[2]
+                if nw.data[GROUP] == d:
+                    dmxData[nw.data[R]] = dc[0]
+                    dmxData[nw.data[G]] = dc[1]
+                    dmxData[nw.data[B]] = dc[2]
 
 countTapsLeft = 3
 firstTap = 0
@@ -191,10 +193,6 @@ offTypes = []
 sendingData = [0, ] * 513
 
 def updateDmx():
-    print("Sending thread started.")
-    global sendingData
-    global isSendingOn
-    global dmxData
     isManualFlush = True
     while True:
         time.sleep(0.02)
@@ -269,9 +267,10 @@ def turnAllButton():
     isSendingOn = int(isTurnedOn)
     turnAllOnf(int(isTurnedOn))
 
-def quit():
+def breakApp():
     turnAllOnf(0)
     app.destroy()
+
 # Buttons
 # Quit button
 quitButton = Button(text = "Quit",
@@ -280,7 +279,7 @@ quitButton = Button(text = "Quit",
                     padx = "20",
                     pady = "20",
                     font = "20",
-                    command = quit,
+                    command = breakApp,
                     )
 quitButton.place(x=1270,y=10,anchor="ne")
 # On/Off button
@@ -326,9 +325,7 @@ sceneSaver.place(x=850,y=440,anchor="ne")
 #
 typesLightning = [[80, 235, 40, 20], [0, 160, 255, 150]]
 def lightning():
-        global typesLightning
-        global sendingData
-        type = choice(typesLightning)
+        typ = choice(typesLightning)
         cur = []
         tp = choice(["spot", "wash"])
         for nw in scene:
@@ -340,8 +337,8 @@ def lightning():
             sendingData[nw.data[ZOOM]] = 0
             sendingData[nw.data[DIM]] = 0
             sendingData[nw.data[SHUTTER]] = 0
-            sendingData[nw.data[PAN]] = type[0]
-            sendingData[nw.data[TILT]] = type[1]
+            sendingData[nw.data[PAN]] = typ[0]
+            sendingData[nw.data[TILT]] = typ[1]
             sendingData[nw.data[TILTSPEED]] = 10
         timeNow = time.perf_counter()
         while time.perf_counter() - timeNow < 1:
@@ -355,8 +352,8 @@ def lightning():
             sendingData[nw.data[SHUTTER]] = 120
             if tp == "wash":
                 sendingData[nw.data[SHUTTER]] = 255
-            sendingData[nw.data[PAN]] = type[2]
-            sendingData[nw.data[TILT]] = type[3]
+            sendingData[nw.data[PAN]] = typ[2]
+            sendingData[nw.data[TILT]] = typ[3]
             sendingData[nw.data[TILTSPEED]] = 10
         timeNow = time.perf_counter()
         while time.perf_counter() - timeNow < 1:
@@ -493,31 +490,27 @@ frame = Frame()
 frame.pack(side = LEFT)
 
 def addLightToBL():
-    global offTypes
     a = varLight.get()
-    if a == False:
+    if not a:
         offTypes.append("light")
     else:
         offTypes.remove("light")
 # check boxes
 def addRToBL():
-    global offTypes
     a = varR.get()
-    if a == False:
+    if not a:
         offTypes.append("R")
     else:
         offTypes.remove("R")
 def addGToBL():
-    global offTypes
     a = varG.get()
-    if a == False:
+    if not a:
         offTypes.append("G")
     else:
         offTypes.remove("G")
 def addBToBL():
-    global offTypes
     a = varB.get()
-    if a == False:
+    if not a:
         offTypes.append("B")
     else:
         offTypes.remove("B")
@@ -545,15 +538,16 @@ bOff.pack(anchor = W, padx = 20)
 def changeCofDim(value):
     global cofDim
     cofDim = int(value) / 100
+
 sliderDim = Scale(frame, from_=0, to=100, command = changeCofDim)
 sliderDim.pack(padx = 20)
+
 def main():
     global scene
     scene = getData()
     savedData = readDiscoScene()
-    saveData()
     threading.Thread(target = updateDmx).start()
-    
+    threading.Thread(target = createScene).start()
     app.mainloop()
 
 if __name__ == "__main__":
