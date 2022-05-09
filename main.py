@@ -54,7 +54,6 @@ class Projector(object):
 
 colors = [[255, 0, 0], [0, 255, 0], [100, 0, 255], [0, 100, 255], [255, 0, 100], [240, 150, 40]]
 def createScene():
-    global isSceneGenerating
     while True:
         lastTimeCounter = time.perf_counter()
         if not isSceneGenerating:
@@ -145,17 +144,14 @@ def spawnScene():
         spawnPlayer.config(text = "Tap 2 times")
         firstTap = time.perf_counter()
         countTapsLeft-=1
-        print("first tap at ", firstTap)
     elif countTapsLeft == 2:
         spawnPlayer.config(text = "Tap 1 times")
         secondTap = time.perf_counter()
         countTapsLeft-=1
-        print("second tap at ", secondTap)
     elif countTapsLeft == 1:
         spawnPlayer.config(text = "Tap 0 times")
         thirdTap = time.perf_counter()
         countTapsLeft-=1
-        print("third tap at ", thirdTap)
         time.sleep(0.2)
 
     if countTapsLeft == 0:
@@ -178,7 +174,6 @@ def saveDiscoScene():
 isScenePlayed = 0
 def playDiscoScenes():
     global isScenePlayed
-    global dmxData
     if isScenePlayed:
         scenePlayer.config(text = "Play saved Scenes! (Off)")
         isScenePlayed = 0
@@ -186,7 +181,10 @@ def playDiscoScenes():
         scenePlayer.config(text = "Play saved Scenes! (On)")
         isScenePlayed = not isScenePlayed
         while isScenePlayed:
-            dmxData = choice(savedScenes)
+            j = 0
+            for i in choice(savedScenes):
+                dmxData[j] = i
+                j += 1
             time.sleep(1)
 
 offTypes = []
