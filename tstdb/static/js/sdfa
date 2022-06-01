@@ -1,0 +1,10 @@
+positionButtonOptions = [
+    new ButtonOptions('position1', tmpNoParams, tmpNoParams, ''),
+    new ButtonOptions('position2', tmpNoParams, tmpNoParams, ''),
+    new ButtonOptions('position3', tmpNoParams, tmpNoParams, ''),
+    new ButtonOptions('position4', tmpNoParams, tmpNoParams, ''),
+    new ButtonOptions('position5', tmpNoParams, tmpNoParams, ''),
+    new ButtonOptions('position6', tmpNoParams, tmpNoParams, ''),
+    new ButtonOptions('position7', tmpNoParams, tmpNoParams, ''),
+    new ButtonOptions('position8', tmpNoParams, tmpNoParams, ''),
+]

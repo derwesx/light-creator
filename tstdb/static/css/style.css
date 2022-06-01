@@ -1,0 +1,48 @@
+.system-btn {
+    background-color: white;
+    border-radius: 28px;
+    height: 10vh;
+    width: 10vh;
+    text-align: center;
+    color: black;
+    border: 4px solid #FF1000;
+}
+
+.group-btn {
+    border-radius: 12px;
+    background-color: white;
+    height: 8vh;
+    width: 8vh;
+    color: black;
+    border: 4px solid #4CAF50;
+}
+
+.effect-btn {
+    border-color: #4CAFF0;
+}
+
+.scene-btn {
+    border-color: #FFFF00;
+}
+
+.pos-btn {
+    border-color: #F06FFF;
+}
+
+.mode-btn {
+    border-color: #FFAF1F;
+}
+
+.effect-btn, .scene-btn, .pos-btn, .mode-btn {
+    color: black;
+    background-color: white;
+    height: 8vh;
+    width: 7vw;
+    border-radius: 16px;
+    border-width: 4px;
+    border-style: solid;
+}
+
+.effect-btn:active, .scene-btn:active, .pos-btn:active, .system-btn:active {
+    background-color: yellow;
+}

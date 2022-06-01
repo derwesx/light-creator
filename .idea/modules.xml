@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/ColorfulScene.iml" filepath="$PROJECT_DIR$/.idea/ColorfulScene.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/tstdb.iml" filepath="$PROJECT_DIR$/.idea/tstdb.iml" />
     </modules>
   </component>
 </project>

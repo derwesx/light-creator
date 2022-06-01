@@ -1,0 +1,345 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Light</title>
+    <link type="staticimage/x-icon" href="{% static 'img/FavIco.png' %}" rel="shortcut icon">
+    <link type="Image/x-icon" href="{% static 'img/FavIco.png' %}" rel="icon">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/css/bootstrap-select.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="script" href="{% static 'js/id_list.js' %}">
+    <link rel="script" href="{% static 'js/button_manager.js' %}">
+</head>
+
+<body>
+<form id="general_form" action="{% url 'btn-clicked' %}">{% csrf_token %}
+    <div class="container-fluid">
+        <div class="row" style="padding: 24px">
+            <div class="col-md-3">
+                <div class="row" style="padding: 6px">
+                    <label class="col-md-12" style="text-align: center">
+                        GROUPS
+                    </label>
+                </div>
+
+                <div class="row" style="padding: 6px">
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="group1" class="group-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="group2" class="group-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="group3" class="group-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="group4" class="group-btn" type="button">
+                    </div>
+                </div>
+
+                <div class="row" style="padding: 6px">
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="group5" class="group-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="group6" class="group-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="group7" class="group-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="group8" class="group-btn" type="button">
+                    </div>
+                </div>
+
+                <div class="row" style="padding: 6px">
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="group9" class="group-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="group10" class="group-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="group11" class="group-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="group12" class="group-btn" type="button">
+                    </div>
+                </div>
+
+                <div class="row" style="padding: 6px">
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="group13" class="group-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="group14" class="group-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="group15" class="group-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="group16" class="group-btn" type="button">
+                    </div>
+                </div>
+
+                <div class="row" style="padding: 36px 6px 6px;">
+                    <label class="col-md-12" style="text-align: center">
+                        COLORS
+                    </label>
+                </div>
+
+                <div class="row" style="padding: 6px 6px 50px;">
+                    <div class="col-md-4" style="text-align: center">
+                        <input id="groupR" class="group-btn" style="border-color: red" type="button">
+                    </div>
+
+                    <div class="col-md-4" style="text-align: center">
+                        <input id="groupG" class="group-btn" style="border-color: green" type="button">
+                    </div>
+
+                    <div class="col-md-4" style="text-align: center">
+                        <input id="groupB" class="group-btn" style="border-color: blue" type="button">
+                    </div>
+                </div>
+
+                <div class="row" style="padding: 6px 6px 10px">
+                    <div class="col-md-12">
+                        <label for="light_power">Light Power</label>
+                        <input type="range" id="light_power" name="light_power"
+                               min="0" max="100" value="50" step="1">
+                    </div>
+                </div>
+
+                <div class="row" style="padding: 10px 6px 6px">
+                    <div class="col-md-12">
+                        <label for="blink_power">Effects Power</label>
+                        <input type="range" id="blink_power" name="blink_power"
+                               min="0" max="100" value="50" step="1">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6" style="padding: 6px">
+                <div class="row" style="padding: 6px 6px 6px">
+                    <div class="col-md-12" style="text-align: center">
+                        <label>SCENES</label>
+                    </div>
+                </div>
+
+                <div class="row" style="padding: 6px 6px 6px">
+                    <div class="col-md-4" style="text-align: center">
+                        <input id="sceneNew" class="scene-btn" type="button">
+                    </div>
+                    <div class="col-md-4" style="text-align: center">
+                        <input id="sceneRand" class="scene-btn" type="button">
+                    </div>
+                    <div class="col-md-4" style="text-align: center">
+                        <input id="sceneSave" class="scene-btn" type="button">
+                    </div>
+                </div>
+
+                <div class="row" style="padding: 6px">
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="scene1" class="scene-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="scene2" class="scene-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="scene3" class="scene-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="scene4" class="scene-btn" type="button">
+                    </div>
+                </div>
+
+                <div class="row" style="padding: 6px">
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="scene5" class="scene-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="scene6" class="scene-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="scene7" class="scene-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="scene8" class="scene-btn" type="button">
+                    </div>
+                </div>
+
+                <div class="row" style="padding: 30px 6px 6px">
+                    <div class="col-md-12" style="text-align: center">
+                        <label>EFFECTS</label>
+                    </div>
+                </div>
+
+                <div class="row" style="padding: 6px">
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="effect1" class="effect-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="effect2" class="effect-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="effect3" class="effect-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="effect4" class="effect-btn" type="button">
+                    </div>
+                </div>
+
+
+                <div class="row" style="padding: 6px">
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="effect5" class="effect-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="effect6" class="effect-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="effect7" class="effect-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="effect8" class="effect-btn" type="button">
+                    </div>
+                </div>
+
+                <div class="row" style="padding: 30px 6px 6px">
+                    <div class="col-md-12" style="text-align: center">
+                        <label>POSITION</label>
+                    </div>
+                </div>
+
+                <div class="row" style="padding: 6px">
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="position1" class="pos-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="position2" class="pos-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="position3" class="pos-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="position4" class="pos-btn" type="button">
+                    </div>
+                </div>
+
+                <div class="row" style="padding: 6px">
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="position5" class="pos-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="position6" class="pos-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="position7" class="pos-btn" type="button">
+                    </div>
+
+                    <div class="col-md-3" style="text-align: center">
+                        <input id="position8" class="pos-btn" type="button">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="row" style="padding: 6px">
+                    <div class="col-md-6" style="text-align: center">
+                        <input id="start" class="system-btn" type="button">
+                    </div>
+
+                    <div class="col-md-6" style="text-align: center">
+                        <input id="quit" class="system-btn" type="button">
+                    </div>
+                </div>
+
+                <div class="row" style="padding: 36px 6px 6px">
+                    <div class="col-md-12" style="text-align: center">
+                        <label>MODE</label>
+                    </div>
+                </div>
+
+                <div class="row" style="padding: 6px">
+                    <div class="col-md-6" style="text-align: center">
+                        <input id="mode1" class="mode-btn" type="button">
+                    </div>
+
+                    <div class="col-md-6" style="text-align: center">
+                        <input id="mode2" class="mode-btn" type="button">
+                    </div>
+                </div>
+
+                <div class="row" style="padding: 6px">
+                    <div class="col-md-6" style="text-align: center">
+                        <input id="mode3" class="mode-btn" type="button">
+                    </div>
+
+                    <div class="col-md-6" style="text-align: center">
+                        <input id="mode4" class="mode-btn" type="button">
+                    </div>
+                </div>
+
+                <div class="row" style="padding: 6px">
+                    <div class="col-md-6" style="text-align: center">
+                        <input id="mode5" class="mode-btn" type="button">
+                    </div>
+
+                    <div class="col-md-6" style="text-align: center">
+                        <input id="mode6" class="mode-btn" type="button">
+                    </div>
+                </div>
+
+                <div class="row" style="padding: 60px 6px">
+                    <div class="col-md-12" style="text-align: center">
+                        <input id="tap" class="system-btn" type="button" value="TAP">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="{% static 'js/id_list.js' %}"></script>
+<script src="{% static 'js/button_manager.js' %}"></script>
+</body>
+</html>
