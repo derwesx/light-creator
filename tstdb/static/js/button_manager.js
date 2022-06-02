@@ -7,6 +7,7 @@ class ButtonContainer {
     isCheckBox;
     htmlButton;
     params;
+    inputEventType;
 
     invertState() {
         if (this.isCheckBox) {
@@ -24,7 +25,7 @@ class ButtonContainer {
         const data = {
             methodId: this.methodId,
             turnOn: !this.isOn,
-            params: this.params,
+            params: this.params.toString(),
             csrfmiddlewaretoken: $('#general_form [name="csrfmiddlewaretoken"]').val()
         };
 
@@ -47,26 +48,50 @@ class ButtonContainer {
 
     handleEvent(event) {
         switch (event.type) {
-            case 'click':
+            case this.inputEventType:
                 this.processClick();
                 break;
         }
     }
 
+    setInputEventType() {
+        this.inputEventType = 'click'
+    }
+
     constructor(htmlButton, options, methodId, params = []) {
+        this.setInputEventType()
         this.isOn = false
         this.htmlButton = htmlButton
-        this.params = params.toString()
+        this.params = params
         this.methodId = methodId
         this.isCheckBox = options.isCheckBox
 
-        this.htmlButton.addEventListener('click', this)
+        this.htmlButton.addEventListener(this.inputEventType, this)
         this.htmlButton.value = options.name
+    }
+}
+
+class SliderContainer extends ButtonContainer {
+    constructor(htmlButton, options, methodId, params = []) {
+        super(htmlButton, options, methodId, params);
+    }
+
+    setInputEventType() {
+        this.inputEventType = 'input'
+    }
+
+    processClick() {
+        this.params = [this.htmlButton.value]
+        super.processClick();
     }
 }
 
 function registerButton(options, params = [], methodId = options.id) {
     buttons.set(options.id, new ButtonContainer(document.getElementById(options.id), options, methodId, params))
+}
+
+function registerSlider(options, methodId = options.id) {
+    buttons.set(options.id, new SliderContainer(document.getElementById(options.id), options, methodId))
 }
 
 function registerGroupButtons() {
@@ -81,6 +106,12 @@ function registerNoParamButtons(buttonOptions) {
     }
 }
 
+function registerSliders() {
+    for (let i = 0; i < slidersOptions.length; i++) {
+        registerSlider(slidersOptions[i])
+    }
+}
+
 function registerAllButtons() {
     registerGroupButtons()
     registerNoParamButtons(sceneButtonOptions)
@@ -89,6 +120,7 @@ function registerAllButtons() {
     registerNoParamButtons(modeButtonOptions)
     registerNoParamButtons(effectButtonOptions)
     registerNoParamButtons(positionButtonOptions)
+    registerSliders()
 }
 
 const buttons = new Map()

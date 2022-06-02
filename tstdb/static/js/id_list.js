@@ -73,3 +73,7 @@ positionButtonOptions = [
     {id: 'position7', name: '', isCheckBox: false},
     {id: 'position8', name: '', isCheckBox: false},
 ]
+
+slidersOptions = [
+    {id: 'light_power', name: '', isCheckBox: false}
+]

@@ -2,13 +2,18 @@ from django.http import JsonResponse
 
 import tstdb.light_processor as lp
 
+
+def set_cof_dim(new_cof):
+    lp.cofDim = int(new_cof) / 100
+
+
 functions = dict()
 functions['group'] = lp.on_group
 functions['start'] = lp.activate
 functions['scene1'] = lp.spawn_scene
 functions['sceneRand'] = lp.generate_scene
+functions['light_power'] = set_cof_dim
 
-#
 
 def process_click(request):
     result = dict()
