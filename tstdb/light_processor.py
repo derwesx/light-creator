@@ -65,20 +65,6 @@ def get_data():
 
     return scene
 
-
-def read_disco_scene():
-    global savedScenes
-    savedScenes = []
-    sceneIn = Config.objects.get(key='disco_scenes').value.split(DB_ROW_SPLITTER)
-    data = []
-    for line in sceneIn:
-        data = line.split('|')
-        for i in range(0, 513):
-            data[i] = int(data[i])
-        savedScenes.append(data[0:513])
-    return savedScenes
-
-
 colors = [[255, 0, 0], [0, 255, 0], [100, 0, 255], [0, 100, 255], [255, 0, 100], [240, 150, 40]]
 
 
@@ -171,30 +157,6 @@ def spawn_scene():
     threading.Thread(target=tap_spawner).start()
 
 
-def save_disco_scene():
-    sceneOut = Config.objects.get(key='disco_scenes')
-    data = ""
-    for i in range(0, 513):
-        data += str(dmxData[i]) + '|'
-    sceneOut.value += DB_ROW_SPLITTER + data
-    sceneOut.save()
-
-
-isScenePlayed = 0
-
-
-def play_disco_scenes():
-    global isScenePlayed
-    global dmxData
-    if isScenePlayed:
-        isScenePlayed = 0
-    else:
-        isScenePlayed = not isScenePlayed
-        while isScenePlayed:
-            dmxData = choice(savedScenes)
-            time.sleep(1)
-
-
 offTypes = []
 sendingData = [0, ] * 513
 
@@ -238,39 +200,6 @@ def update_dmx():
                         sendingData[nw.data[j]] = 0
         sender[1].dmx_data = sendingData[1:513]
 
-
-def turn_all_onf():
-    if 1:
-        for nw in scene:
-            nw.isOn = True
-            if nw.data[TYPE] == "spot":
-                dmxData[nw.data[SHUTTER]] = 255
-            dmxData[nw.data[DIM]] = 255
-            dmxData[nw.data[R]] = 255
-            dmxData[nw.data[G]] = 255
-            dmxData[nw.data[B]] = 255
-            dmxData[nw.data[PAN]] = 86
-            dmxData[nw.data[ZOOM]] = 120
-            if nw.data[TYPE] == "washL":
-                dmxData[nw.data[TILT]] = 70
-            else:
-                dmxData[nw.data[TILT]] = 140
-    else:
-        for nw in scene:
-            if nw.data[TYPE] == "spot":
-                dmxData[nw.data[SHUTTER]] = 0
-            dmxData[nw.data[DIM]] = 0
-            dmxData[nw.data[R]] = 0
-            dmxData[nw.data[G]] = 0
-            dmxData[nw.data[B]] = 0
-
-def break_app():
-    turn_all_onf(0)
-
-
-# Buttons
-# Quit button
-# Scene generator
 scenesGenerating = 0
 
 
@@ -358,11 +287,6 @@ def worker_blink():
 def blink_light():
     threading.Thread(target=worker_blink()).start()
 
-
-def start_player():
-    threading.Thread(target=play_disco_scenes).start()
-
-
 def on_group(group):
     for nw in scene:
         if not nw.isOn:
@@ -405,6 +329,5 @@ def turn_groups():
 def activate():
     global scene
     scene = get_data()
-    savedData = read_disco_scene()
     threading.Thread(target=update_dmx).start()
     threading.Thread(target=create_scene).start()

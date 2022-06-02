@@ -30,7 +30,7 @@ systemButtonOptions = [
 ]
 
 effectButtonOptions = [
-    {id: 'effect1', name: 'ZIP', isCheckBox: false},
+    {id: 'effect1', name: 'Tap', isCheckBox: false},
     {id: 'effect2', name: 'BLINK', isCheckBox: false},
     {id: 'effect3', name: '', isCheckBox: false},
     {id: 'effect4', name: '', isCheckBox: false},
