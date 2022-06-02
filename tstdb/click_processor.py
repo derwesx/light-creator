@@ -7,7 +7,7 @@ functions['group'] = lp.on_group
 functions['start'] = lp.activate
 functions['scene1'] = lp.spawn_scene
 functions['sceneRand'] = lp.generate_scene
-functions['mode1'] = lp.plav
+functions['effect1'] = lp.plav
 #
 
 def process_click(request):

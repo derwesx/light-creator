@@ -30,7 +30,7 @@ systemButtonOptions = [
 ]
 
 effectButtonOptions = [
-    {id: 'effect1', name: '', isCheckBox: false},
+    {id: 'effect1', name: 'Slow/Fast', isCheckBox: false},
     {id: 'effect2', name: '', isCheckBox: false},
     {id: 'effect3', name: '', isCheckBox: false},
     {id: 'effect4', name: '', isCheckBox: false},
@@ -55,7 +55,7 @@ sceneButtonOptions = [
 ]
 
 modeButtonOptions = [
-    {id: 'mode1', name: 'Slow/Fast', isCheckBox: true},
+    {id: 'mode1', name: '', isCheckBox: true},
     {id: 'mode2', name: '', isCheckBox: true},
     {id: 'mode3', name: '', isCheckBox: true},
     {id: 'mode4', name: '', isCheckBox: true},
