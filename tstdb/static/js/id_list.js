@@ -31,7 +31,7 @@ systemButtonOptions = [
 
 effectButtonOptions = [
     {id: 'effect1', name: 'Tap', isCheckBox: false},
-    {id: 'effect2', name: 'Create Scene', isCheckBox: false},
+    {id: 'effect2', name: '', isCheckBox: false},
     {id: 'effect3', name: '', isCheckBox: false},
     {id: 'effect4', name: '', isCheckBox: false},
     {id: 'effect5', name: '', isCheckBox: false},
@@ -44,7 +44,7 @@ sceneButtonOptions = [
     {id: 'sceneNew', name: 'NEW', isCheckBox: false},
     {id: 'sceneRand', name: 'RAND', isCheckBox: false},
     {id: 'sceneSave', name: 'SAVE', isCheckBox: false},
-    {id: 'scene1', name: '', isCheckBox: false},
+    {id: 'scene1', name: 'Tap', isCheckBox: false},
     {id: 'scene2', name: '', isCheckBox: false},
     {id: 'scene3', name: '', isCheckBox: false},
     {id: 'scene4', name: '', isCheckBox: false},

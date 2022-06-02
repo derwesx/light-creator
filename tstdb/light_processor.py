@@ -179,6 +179,8 @@ def update_dmx():
                 sendingData[i] = dmxData[i]
         for nw in scene:
             if isTaken[nw.data[DIM]] == 0:
+                sendingData[nw.data[PAN]] = 86
+                sendingData[nw.data[TILT]] = 120
                 sendingData[nw.data[DIM]] = min(255, int(dmxData[nw.data[DIM]] * (cofDim ** 2)))
             if isBlinking:
                 sendingData[nw.data[DIM]] = int(80 * (cofDim ** 2))
