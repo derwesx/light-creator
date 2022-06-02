@@ -201,17 +201,22 @@ def update_dmx():
                     for j in range(2, 14):
                         sendingData[nw.data[j]] = 0
         global prevData, LTUPD
-        if time.perf_counter() - LTUPD > 0.02:
+        if time.perf_counter() - LTUPD > 0.02 and plavn:
             LTUPD = time.perf_counter()
             for i in range(1, 513):
                 if sendingData[i] > prevData[i]:
                     prevData[i] += 1
                 elif sendingData[i] < prevData[i]:
                     prevData[i] -= 1
+        if not plavn:
+            prevData = sendingData
         sender[1].dmx_data = prevData[1:513]
 
 scenesGenerating = 0
-
+plavn = False
+def plav():
+    global plavn
+    plavn = not plavn
 
 def scene_creator_thread():
     global scenesGenerating, isSceneGenerating

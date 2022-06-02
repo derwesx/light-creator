@@ -55,7 +55,7 @@ sceneButtonOptions = [
 ]
 
 modeButtonOptions = [
-    {id: 'mode1', name: '', isCheckBox: true},
+    {id: 'mode1', name: 'Slow/Fast', isCheckBox: true},
     {id: 'mode2', name: '', isCheckBox: true},
     {id: 'mode3', name: '', isCheckBox: true},
     {id: 'mode4', name: '', isCheckBox: true},
