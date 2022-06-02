@@ -109,6 +109,13 @@ function registerGroupButtons() {
     }
 }
 
+function registerColorButtons() {
+    for (let i = 0; i < colorButtonOptions.length; i++) {
+        registerButton(colorButtonOptions[i], colorButtonOptions[i].name, 'color')
+        console.log("Color BTN: " + colorButtonOptions[i].name + " registered")
+    }
+}
+
 function registerNoParamButtons(buttonOptions) {
     for (let i = 0; i < buttonOptions.length; i++) {
         registerButton(buttonOptions[i])
@@ -123,8 +130,8 @@ function registerSliders() {
 
 function registerAllButtons() {
     registerGroupButtons()
+    registerColorButtons()
     registerNoParamButtons(sceneButtonOptions)
-    registerNoParamButtons(colorButtonOptions)
     registerNoParamButtons(systemButtonOptions)
     registerNoParamButtons(modeButtonOptions)
     registerNoParamButtons(effectButtonOptions)

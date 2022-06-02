@@ -7,7 +7,17 @@ def set_cof_dim(new_cof):
     lp.cofDim = int(new_cof) / 100
 
 
+def on_color(color):
+    lp.offTypes.remove(color)
+
+
+def off_color(color):
+    lp.offTypes.append(color)
+
+
 functions = dict()
+functions['colorOn'] = off_color
+functions['colorOff'] = on_color
 functions['groupOn'] = lp.on_group
 functions['groupOff'] = lp.off_group
 functions['start'] = lp.activate
@@ -16,6 +26,8 @@ functions['sceneRand'] = lp.generate_scene
 functions['light_power'] = set_cof_dim
 
 functions['effect1'] = lp.plav
+
+
 #
 
 def process_click(request):

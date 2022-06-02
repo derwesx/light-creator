@@ -18,10 +18,11 @@ groupButtonOptions = [
 ]
 
 colorButtonOptions = [
-    {id: 'groupR', name: 'R', isCheckBox: true},
-    {id: 'groupG', name: 'G', isCheckBox: true},
-    {id: 'groupB', name: 'B', isCheckBox: true},
-]
+    {id: 'colorR', name: 'R', isCheckBox: true},
+    {id: 'colorG', name: 'G', isCheckBox: true},
+    {id: 'colorB', name: 'B', isCheckBox: true},
+    {id: 'colorW', name: 'W', isCheckBox: true}
+];
 
 systemButtonOptions = [
     {id: 'start', name: 'START', isCheckBox: false},
