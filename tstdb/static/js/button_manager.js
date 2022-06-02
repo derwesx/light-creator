@@ -22,8 +22,17 @@ class ButtonContainer {
     }
 
     executeClickQuery() {
+        let postMethodId = this.methodId
+        if (this.isCheckBox) {
+            if (this.isOn) {
+                postMethodId += 'On'
+            } else {
+                postMethodId += 'Off'
+            }
+        }
+
         const data = {
-            methodId: this.methodId,
+            methodId: postMethodId,
             turnOn: !this.isOn,
             params: this.params.toString(),
             csrfmiddlewaretoken: $('#general_form [name="csrfmiddlewaretoken"]').val()
@@ -42,8 +51,8 @@ class ButtonContainer {
     }
 
     processClick() {
-        this.executeClickQuery()
         this.invertState()
+        this.executeClickQuery()
     }
 
     handleEvent(event) {

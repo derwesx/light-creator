@@ -8,7 +8,8 @@ def set_cof_dim(new_cof):
 
 
 functions = dict()
-functions['group'] = lp.on_group
+functions['groupOn'] = lp.on_group
+functions['groupOff'] = lp.off_group
 functions['start'] = lp.activate
 functions['scene1'] = lp.spawn_scene
 functions['sceneRand'] = lp.generate_scene
