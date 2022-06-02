@@ -8,6 +8,8 @@ functions['start'] = lp.activate
 functions['scene1'] = lp.spawn_scene
 functions['sceneRand'] = lp.generate_scene
 
+# hi
+
 def process_click(request):
     result = dict()
     data = request.POST
