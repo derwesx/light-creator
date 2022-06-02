@@ -14,6 +14,8 @@ functions['scene1'] = lp.spawn_scene
 functions['sceneRand'] = lp.generate_scene
 functions['light_power'] = set_cof_dim
 
+functions['effect1'] = lp.plav
+#
 
 def process_click(request):
     result = dict()
