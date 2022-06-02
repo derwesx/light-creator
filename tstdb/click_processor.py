@@ -11,7 +11,7 @@ functions = dict()
 functions['groupOn'] = lp.on_group
 functions['groupOff'] = lp.off_group
 functions['start'] = lp.activate
-functions['scene1'] = lp.spawn_scene
+functions['tap'] = lp.spawn_scene
 functions['sceneRand'] = lp.generate_scene
 functions['light_power'] = set_cof_dim
 
