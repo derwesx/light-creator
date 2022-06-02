@@ -112,7 +112,6 @@ function registerGroupButtons() {
 function registerColorButtons() {
     for (let i = 0; i < colorButtonOptions.length; i++) {
         registerButton(colorButtonOptions[i], colorButtonOptions[i].name, 'color')
-        console.log("Color BTN: " + colorButtonOptions[i].name + " registered")
     }
 }
 

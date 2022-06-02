@@ -8,10 +8,14 @@ def set_cof_dim(new_cof):
 
 
 def on_color(color):
+    if color == "W":
+        color = "light"
     lp.offTypes.remove(color)
 
 
 def off_color(color):
+    if color == "W":
+        color = "light"
     lp.offTypes.append(color)
 
 
