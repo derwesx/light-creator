@@ -6,7 +6,7 @@ functions = dict()
 functions['group'] = lp.on_group
 functions['start'] = lp.activate
 functions['effect1'] = lp.spawn_scene
-
+functions['effect2'] = lp.generate_scene
 
 def process_click(request):
     result = dict()
