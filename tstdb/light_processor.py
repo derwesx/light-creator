@@ -159,12 +159,12 @@ def spawn_scene():
 
 offTypes = []
 sendingData = [0, ] * 513
-
-
+prevData = [0, ] * 513
+LTUPD = time.perf_counter()
 def update_dmx():
     isManualFlush = False
     while True:
-        time.sleep(0.02)
+        time.sleep(0.005)
         if not isSendingOn:
             sender[1].dmx_data = [0, ] * 512
             if isManualFlush:
@@ -200,7 +200,15 @@ def update_dmx():
                 if nw.data[TYPE] == str(i):
                     for j in range(2, 14):
                         sendingData[nw.data[j]] = 0
-        sender[1].dmx_data = sendingData[1:513]
+        global prevData, LTUPD
+        if time.perf_counter() - LTUPD > 0.02:
+            LTUPD = time.perf_counter()
+            for i in range(1, 513):
+                if sendingData[i] > prevData[i]:
+                    prevData[i] += 1
+                elif sendingData[i] < prevData[i]:
+                    prevData[i] -= 1
+        sender[1].dmx_data = prevData[1:513]
 
 scenesGenerating = 0
 
