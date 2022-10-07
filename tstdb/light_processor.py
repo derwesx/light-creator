@@ -236,7 +236,27 @@ typesLightning = [[80, 235, 40, 20], [0, 160, 255, 150]]
 def lightning():
     typ = choice(typesLightning)
     cur = []
-    tp = choice(["spot", "wash"])
+    tp = choice(["spot", "wash", "strob"])
+        if tp == "strob":
+            for nw in scene:
+                if nw.data[TYPE] == tp and isTaken[nw.data[DIM]] == 0:
+                    for i in range(2, 14):
+                        isTaken[nw.data[i]] = 1
+                    cur.append(nw)
+            for nw in cur:
+                sendingData[nw.data[SHUTTER]] = 255
+                sendingData[nw.data[DIM]] = 255
+            timeNow = time.perf_counter()
+            while time.perf_counter() - timeNow < 5:
+                continue
+            for nw in cur:
+                sendingData[nw.data[SHUTTER]] = 0
+                sendingData[nw.data[DIM]] = 0
+            for nw in cur:
+                for i in range(2, 14):
+                    isTaken[nw.data[i]] = 0
+            return
+        
     for nw in scene:
         if nw.data[TYPE] == tp and isTaken[nw.data[DIM]] == 0:
             for i in range(2, 14):
