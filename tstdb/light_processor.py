@@ -65,6 +65,7 @@ def get_data():
 
     return scene
 
+
 colors = [[255, 0, 0], [0, 255, 0], [100, 0, 255], [0, 100, 255], [255, 0, 100], [240, 150, 40]]
 
 
@@ -128,6 +129,7 @@ def tap_spawner():
             lastTimeCounter = time.perf_counter()
             generate_scene()
 
+
 def spawn_scene():
     global countTapsLeft
     global firstTap
@@ -148,7 +150,6 @@ def spawn_scene():
         print("third tap at ", thirdTap)
         time.sleep(0.2)
 
-
     if countTapsLeft == 0:
         calculatedTime = ((thirdTap - secondTap) + (secondTap - firstTap)) / 2
         countTapsLeft -= 1
@@ -162,6 +163,7 @@ sendingData = [0, ] * 513
 prevData = [0, ] * 513
 LTUPD = time.perf_counter()
 plavn = False
+
 
 def update_dmx():
     isManualFlush = False
@@ -215,10 +217,14 @@ def update_dmx():
                 prevData[i] = sendingData[i]
         sender[1].dmx_data = prevData[1:513]
 
+
 scenesGenerating = 0
+
+
 def plav():
     global plavn
     plavn = not plavn
+
 
 def scene_creator_thread():
     global scenesGenerating, isSceneGenerating
@@ -232,31 +238,30 @@ def scene_creator_thread():
 typesLightning = [[80, 235, 40, 20], [0, 160, 255, 150]]
 
 
-
 def lightning():
     typ = choice(typesLightning)
     cur = []
     tp = choice(["spot", "wash", "strob"])
-        if tp == "strob":
-            for nw in scene:
-                if nw.data[TYPE] == tp and isTaken[nw.data[DIM]] == 0:
-                    for i in range(2, 14):
-                        isTaken[nw.data[i]] = 1
-                    cur.append(nw)
-            for nw in cur:
-                sendingData[nw.data[SHUTTER]] = 255
-                sendingData[nw.data[DIM]] = 255
-            timeNow = time.perf_counter()
-            while time.perf_counter() - timeNow < 5:
-                continue
-            for nw in cur:
-                sendingData[nw.data[SHUTTER]] = 0
-                sendingData[nw.data[DIM]] = 0
-            for nw in cur:
+    if tp == "strob":
+        for nw in scene:
+            if nw.data[TYPE] == tp and isTaken[nw.data[DIM]] == 0:
                 for i in range(2, 14):
-                    isTaken[nw.data[i]] = 0
-            return
-        
+                    isTaken[nw.data[i]] = 1
+                cur.append(nw)
+        for nw in cur:
+            sendingData[nw.data[SHUTTER]] = 255
+            sendingData[nw.data[DIM]] = 255
+        timeNow = time.perf_counter()
+        while time.perf_counter() - timeNow < 5:
+            continue
+        for nw in cur:
+            sendingData[nw.data[SHUTTER]] = 0
+            sendingData[nw.data[DIM]] = 0
+        for nw in cur:
+            for i in range(2, 14):
+                isTaken[nw.data[i]] = 0
+        return
+
     for nw in scene:
         if nw.data[TYPE] == tp and isTaken[nw.data[DIM]] == 0:
             for i in range(2, 14):
@@ -323,6 +328,7 @@ def worker_blink():
 
 def blink_light():
     threading.Thread(target=worker_blink()).start()
+
 
 def on_group(group):
     for nw in scene:
