@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 
-import sources.light_processor as lp
+import sources.back.light_processor as lp
 
 
 def set_cof_dim(new_cof):
