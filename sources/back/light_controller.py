@@ -47,7 +47,6 @@ def dmxUpdater():
             lastTimeUpdated = time.perf_counter()
         else:
             continue
-        print("updated")
         dmxToSend = [0, ] * 512
         for i in Projectors:
             i.update()
@@ -69,3 +68,4 @@ while True:
         newColor = getRandomColor()
         for i in Projectors:
             i.switchColor(newColor)
+            i.setDimmer(1.0)

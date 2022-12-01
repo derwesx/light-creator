@@ -38,6 +38,10 @@ class Projector:
         self.DLD[R], self.DLD[G], self.DLD[B] = newColor
         print(f"{self.adressData[TYPE]} | My color now is -> {newColor}")
 
+    def setDimmer(self, cof):
+        dimmer = int(255 * cof)
+        self.DLD[DIM] = dimmer
+        
     def update(self):
         if not self.isWorking:
             self.DGD = [0, ] * 14
