@@ -23,7 +23,7 @@ class Projector:
         self.isWorking = 1
         self.isFreezed = 0
         self.DLD[0] = str(self.DLD[0])
-        for i in range(1, 14):
+        for i in range(2, 14):
             self.DLD[i] = int(self.DLD[i])
     
     def switchWorkingMode(self, mode = None):
@@ -34,8 +34,9 @@ class Projector:
         elif mode == "freeze/unfreeze":
             self.isFreezed = not self.isFreezed
     
-    def switchColor(self, newColor):
+    def switchColor(self, newColor = (0, 0, 0)):
         self.DLD[R], self.DLD[G], self.DLD[B] = newColor
+        print(f"{self.adressData[TYPE]} | My color now is -> {newColor}")
 
     def update(self):
         if not self.isWorking:
