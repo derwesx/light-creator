@@ -42,7 +42,7 @@ def process_click(request):
         return JsonResponse(result)
 
     session_key = request.session.session_key
-
+    print(data)
     if len(data['params']) == 0:
         functions[data['methodId']]()
     else:
