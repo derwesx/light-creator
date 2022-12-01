@@ -1,0 +1,16 @@
+DB_ROW_SPLITTER = '$'
+
+TYPE = 0
+GROUP = 1
+DIM = 2
+RGB = 3
+R = 4
+G = 5
+B = 6
+PAN = 7
+TILT = 8
+PANSPEED = 9
+TILTSPEED = 10
+FOCUS = 11
+ZOOM = 12
+SHUTTER = 13
