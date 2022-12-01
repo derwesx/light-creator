@@ -30,8 +30,8 @@ def get_projectors(DBCur):
     count = len(DBCur.fetchall())
     print(f"Found {count} projectors...")
     for i in range(count):
-        qur = "SELECT * FROM projectors_info WHERE id = ?"
-        DBCur.execute(qur, str(i))
+        qur = "SELECT * FROM projectors_info WHERE id="
+        DBCur.execute(qur+str(i))
         nuw = DBCur.fetchone()
         projectors.append(nuw)
     return projectors

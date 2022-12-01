@@ -47,12 +47,14 @@ def dmxUpdater():
             lastTimeUpdated = time.perf_counter()
         else:
             continue
-        dmxToSend = [0, ] * 512
+        dmxToSend = [0, ] * 513
         for i in Projectors:
             i.update()
             for chnl in range(2, 14):
-                dmxToSend[i.adressData[chnl]] = i.DGD[chnl]
-        sender[1].dmx_data = dmxToSend
+                print(chnl, i.adressData[chnl], i.DGD[chnl])
+                dmxToSend[i.adressData[chnl]] = int(i.DGD[chnl])
+        # print(dmxToSend)
+        sender[1].dmx_data = dmxToSend[1:513]
 
 # Events controller
 def catchRequest(request):
@@ -60,12 +62,13 @@ def catchRequest(request):
 
 def oklol():
     timeNow = time.perf_counter()
-    if time.perf_counter() - timeNow > 3:
-        timeNow = time.perf_counter()
-        newColor = getRandomColor()
-        for i in Projectors:
-            i.switchColor(newColor)
-            i.setDimmer(1.0)
+    while True:
+        if time.perf_counter() - timeNow > 3:
+            timeNow = time.perf_counter()
+            newColor = getRandomColor()
+            for i in Projectors:
+                i.switchColor(newColor)
+                i.setDimmer(1.0)
 
 dmxController = threading.Thread(target = dmxUpdater)
 dmxController.start()
