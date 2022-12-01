@@ -58,14 +58,15 @@ def dmxUpdater():
 def catchRequest(request):
     print(request)
 
-dmxController = threading.Thread(target = dmxUpdater)
-dmxController.start()
-
-timeNow = time.perf_counter()
-while True:
+def oklol():
+    timeNow = time.perf_counter()
     if time.perf_counter() - timeNow > 3:
         timeNow = time.perf_counter()
         newColor = getRandomColor()
         for i in Projectors:
             i.switchColor(newColor)
             i.setDimmer(1.0)
+
+dmxController = threading.Thread(target = dmxUpdater)
+dmxController.start()
+threading.Thread(target = oklol).start()
