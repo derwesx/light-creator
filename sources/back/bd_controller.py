@@ -1,24 +1,33 @@
 import sqlite3
 
-DBCon = sqlite3.connect("sources/db.sqlite3")
+DBCon = sqlite3.connect("db.sqlite3")
 DBCur = DBCon.cursor()
 
-tableCreate = "CREATE TABLE IF NOT EXISTS projectors_info (id INTEGER PRIMARY KEY UNIQUE, type STRING NOT NULL, group_id INTEGER, dim INTEGER, rgb INTEGER, r INTEGER, g INTERGER, b INTEGER, pan INTEGER, tilt INTEGER, panSpeed INTEGER, tiltSpeed INTEGER, focus INTEGER, zoom INTEGER, shutter INTEGER);"
+tableCreate = "CREATE TABLE IF NOT EXISTS projectors_info (id INTEGER PRIMARY KEY UNIQUE, type TEXT NOT NULL, group_id INTEGER, dim INTEGER, rgb INTEGER, r INTEGER, g INTEGER, b INTEGER, pan INTEGER, tilt INTEGER, panSpeed INTEGER, tiltSpeed INTEGER, focus INTEGER, zoom INTEGER, shutter INTEGER);"
 DBCur.execute(tableCreate)
 
 def add_projector(data):
     getCount = "SELECT * FROM projectors_info"
     DBCur.execute(getCount)
     cnt = len(DBCur.fetchall())
-    print(cnt)
+    print(f"Adding projector with id {cnt}")
     qur = "INSERT INTO projectors_info(id, type, group_id, dim, rgb, r, g, b, pan, tilt, panSpeed, tiltSpeed, focus, zoom, shutter) " \
-          "VALUES(%d, %s, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d)"
-    print([cnt] + data)
-    DBCur.execute(qur, (0, '1', 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14))
+          "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+    DBCur.execute(qur, [cnt] + data)
+    DBCon.commit()
+    print(f"Projector with id {cnt} added")
 
 def remove_projector(dim_adress):
-    pass
+    getCount = "SELECT * FROM projectors_info WHERE dim = ?"
+    DBCur.execute(getCount, [dim_adress])
+    count = len(DBCur.fetchall())
+    print(f"Removing {count} projectors with dim-adress = {dim_adress}")
+    qur = "DELETE FROM projectors_info WHERE dim = ?"
+    DBCur.execute(qur, [dim_adress])
+    DBCon.commit()
+    print(f"{count} projectors were succesfully removed")
 
 add_projector([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
-add_projector([2, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
-add_projector([3, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
+
+DBCur.close()
+DBCon.close()
