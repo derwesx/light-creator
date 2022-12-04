@@ -35,8 +35,8 @@ print(f"Total {len(Projectors)} projectors added")
 import cv2
 colorMap = cv2.imread("sources/back/colormap.png")
 def getRandomColor():
-    x = random.randint(0, len(colorMap))
-    y = random.randint(0, len(colorMap[0]))
+    x = random.randint(0, len(colorMap) - 1)
+    y = random.randint(0, len(colorMap[0]) - 1)
     # print(f"Got color -> {colorMap[x][y]}")
     return colorMap[x][y]
     
@@ -69,7 +69,7 @@ def catchRequest(request):
 def oklol():
     timeNow = time.perf_counter()
     while True:
-        if time.perf_counter() - timeNow > 3:
+        if time.perf_counter() - timeNow > 0.3:
             timeNow = time.perf_counter()
             newColor = getRandomColor()
             for i in Projectors:
