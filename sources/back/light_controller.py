@@ -4,6 +4,14 @@ import time
 
 from sources.back.consts import *
 
+# Musor
+import cv2, numpy as np
+def drawSquare(color):
+    a = np.zeros((100, 100, 3))
+    color = color[::-1]
+    a[:,:] = color
+    cv2.imwrite("sources/back/gotcolor.png", a)
+
 # Working with Database
 import sources.back.bd_controller as bd
 import sqlite3
@@ -27,10 +35,9 @@ print(f"Total {len(Projectors)} projectors added")
 import cv2
 colorMap = cv2.imread("sources/back/colormap.png")
 def getRandomColor():
-    print("Getting random color...")
     x = random.randint(0, len(colorMap))
     y = random.randint(0, len(colorMap[0]))
-    print(f"Got color -> {colorMap[x][y]}")
+    # print(f"Got color -> {colorMap[x][y]}")
     return colorMap[x][y]
     
 # Working with DMX Signal Sender
@@ -51,7 +58,6 @@ def dmxUpdater():
         for i in Projectors:
             i.update()
             for chnl in range(2, 14):
-                print(chnl, i.adressData[chnl], i.DGD[chnl])
                 dmxToSend[i.adressData[chnl]] = int(i.DGD[chnl])
         # print(dmxToSend)
         sender[1].dmx_data = dmxToSend[1:513]
@@ -67,8 +73,11 @@ def oklol():
             timeNow = time.perf_counter()
             newColor = getRandomColor()
             for i in Projectors:
+                if i.type == "light":
+                    continue
                 i.switchColor(newColor)
                 i.setDimmer(1.0)
+            drawSquare(newColor)
 
 dmxController = threading.Thread(target = dmxUpdater)
 dmxController.start()

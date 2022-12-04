@@ -33,5 +33,5 @@ def get_projectors(DBCur):
         qur = "SELECT * FROM projectors_info WHERE id="
         DBCur.execute(qur+str(i))
         nuw = DBCur.fetchone()
-        projectors.append(nuw)
+        projectors.append(nuw[1:])
     return projectors

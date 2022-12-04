@@ -23,6 +23,7 @@ class Projector:
         self.isWorking = 1
         self.isFreezed = 0
         self.DLD[0] = str(self.DLD[0])
+        self.type = self.adressData[0]
         for i in range(2, 14):
             self.DLD[i] = int(self.DLD[i])
     
@@ -36,7 +37,7 @@ class Projector:
     
     def switchColor(self, newColor = (0, 0, 0)):
         self.DLD[R], self.DLD[G], self.DLD[B] = newColor
-        print(f"{self.adressData[TYPE]} | My color now is -> {newColor}")
+        # print(f"{self.adressData[TYPE]} | My color now is -> {newColor}")
 
     def setDimmer(self, cof):
         dimmer = int(255 * cof)
