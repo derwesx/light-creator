@@ -34,16 +34,26 @@ class Projector:
             self.isWorking = not self.isWorking
         elif mode == "freeze/unfreeze":
             self.isFreezed = not self.isFreezed
-    
-    def switchColor(self, newColor = (0, 0, 0)):
-        self.DLD[R], self.DLD[G], self.DLD[B] = newColor
+        elif mode == "rgbon/rgboff":
+            pass
+
+    def switchColor(self, newColor = (0, 0, 0), transitionTime = 0):
+        if transitionTime == 0:
+            self.DLD[R], self.DLD[G], self.DLD[B] = newColor
+        else:
+            self.colorUpdate(self.color, newColor, transitionTime)
         # print(f"{self.adressData[TYPE]} | My color now is -> {newColor}")
 
     def setDimmer(self, cof):
         dimmer = int(255 * cof)
         self.DLD[DIM] = dimmer
-        
+
+    def colorUpdate(self, newColor = None, transitionTime = None):
+        if newColor == None:
+            pass
+
     def update(self):
+        self.colorUpdate()
         if not self.isWorking:
             self.DGD = [0, ] * 14
         else:

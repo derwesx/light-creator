@@ -6,7 +6,7 @@ from sources.back.consts import *
 
 # Musor
 import cv2, numpy as np
-def drawSquare(color):
+def drawColoredSquare(color):
     a = np.zeros((100, 100, 3))
     color = color[::-1]
     a[:,:] = color
@@ -69,7 +69,7 @@ def catchRequest(request):
 def oklol():
     timeNow = time.perf_counter()
     while True:
-        if time.perf_counter() - timeNow > 0.3:
+        if time.perf_counter() - timeNow > 2:
             timeNow = time.perf_counter()
             newColor = getRandomColor()
             for i in Projectors:
@@ -77,7 +77,6 @@ def oklol():
                     continue
                 i.switchColor(newColor)
                 i.setDimmer(1.0)
-            drawSquare(newColor)
 
 dmxController = threading.Thread(target = dmxUpdater)
 dmxController.start()
