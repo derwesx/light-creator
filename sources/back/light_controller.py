@@ -39,7 +39,7 @@ def getRandomColor():
     y = random.randint(0, len(colorMap[0]) - 1)
     # print(f"Got color -> {colorMap[x][y]}")
     return colorMap[x][y]
-    
+
 # Working with DMX Signal Sender
 import sacn
 sender = sacn.sACNsender(fps=60)
@@ -62,22 +62,60 @@ def dmxUpdater():
         # print(dmxToSend)
         sender[1].dmx_data = dmxToSend[1:513]
 
+# Person OpenCV searcher
+
+hog = cv2.HOGDescriptor()
+hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
+
+cap = cv2.VideoCapture(0)
+
+def personFollower():
+    while True:
+        ret, frame = cap.read()
+        
+        # frame = cv2.resize(frame, (640, 480))
+        # boxes, weights = hog.detectMultiScale(frame, winStride=(8,8))
+        # boxes = np.array([[x, y, x + w, y + h] for (x, y, w, h) in boxes])    
+        # print(boxes, weights)
+
+        # i = 0
+        # for (xA, yA, xB, yB) in boxes:
+        #     if weights[i] < 1 or abs(xB-xA) * abs(yB-yA) > 300 * 300:
+        #         cv2.rectangle(frame, (xA, yA), (xB, yB), (0, 0, 255), 2)
+        #         i+=1
+        #         continue
+        #     cv2.rectangle(frame, (xA, yA), (xB, yB), (0, 255, 0), 2)
+        #     i+=1
+            
+        cv2.imshow('Persons founded', frame)
+
 # Events controller
 def catchRequest(request):
     print(request)
 
-def oklol():
-    timeNow = time.perf_counter()
-    while True:
-        if time.perf_counter() - timeNow > 2:
-            timeNow = time.perf_counter()
-            newColor = getRandomColor()
-            for i in Projectors:
-                if i.type == "light":
-                    continue
-                i.switchColor(newColor)
-                i.setDimmer(1.0)
+def oklol(code = 1):
+    if code == 1:
+        timeNow = time.perf_counter()
+        while True:
+            if time.perf_counter() - timeNow > 2:
+                timeNow = time.perf_counter()
+                newColor = getRandomColor()
+                for i in Projectors:
+                    if i.type == "light":
+                        continue
+                    i.switchColor(newColor)
+                    i.setDimmer(1.0)
+    else:
+        timeNow = time.perf_counter()
+        while True:
+            if time.perf_counter() - timeNow > 2:
+                timeNow = time.perf_counter()
+                print(timeNow, "calling...")
+                personFollower()
+        pass
+
+# Program starts
 
 dmxController = threading.Thread(target = dmxUpdater)
 dmxController.start()
-threading.Thread(target = oklol).start()
+threading.Thread(target = oklol, args = [2]).start()
