@@ -1,11 +1,14 @@
+import cv2, numpy as np
 import threading
 import random
+import sqlite3
 import time
+import sacn
 
+import sources.back.bd_controller as bd
 from sources.back.consts import *
 
 # Musor
-import cv2, numpy as np
 def drawColoredSquare(color):
     a = np.zeros((100, 100, 3))
     color = color[::-1]
@@ -13,8 +16,6 @@ def drawColoredSquare(color):
     cv2.imwrite("sources/back/gotcolor.png", a)
 
 # Working with Database
-import sources.back.bd_controller as bd
-import sqlite3
 
 DBCon = sqlite3.connect("db.sqlite3")
 DBCur = DBCon.cursor()
@@ -32,7 +33,7 @@ for i in tmpProjectors:
 print(f"Total {len(Projectors)} projectors added")
 
 # Working with color generator
-import cv2
+
 colorMap = cv2.imread("sources/back/colormap.png")
 def getRandomColor():
     x = random.randint(0, len(colorMap) - 1)
@@ -41,7 +42,7 @@ def getRandomColor():
     return colorMap[x][y]
 
 # Working with DMX Signal Sender
-import sacn
+
 sender = sacn.sACNsender(fps=60)
 sender.start()
 sender.activate_output(1)
@@ -67,27 +68,29 @@ def dmxUpdater():
 hog = cv2.HOGDescriptor()
 hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 
-cap = cv2.VideoCapture(0)
 
 def personFollower():
+    cap = cv2.VideoCapture(0)
     while True:
         ret, frame = cap.read()
+        print(frame)
+        frame = cv2.resize(frame, (640, 480))
         
-        # frame = cv2.resize(frame, (640, 480))
-        # boxes, weights = hog.detectMultiScale(frame, winStride=(8,8))
-        # boxes = np.array([[x, y, x + w, y + h] for (x, y, w, h) in boxes])    
-        # print(boxes, weights)
+        boxes, weights = hog.detectMultiScale(frame, winStride=(8,8))
+        boxes = np.array([[x, y, x + w, y + h] for (x, y, w, h) in boxes])    
+        print(boxes, weights)
 
-        # i = 0
-        # for (xA, yA, xB, yB) in boxes:
-        #     if weights[i] < 1 or abs(xB-xA) * abs(yB-yA) > 300 * 300:
-        #         cv2.rectangle(frame, (xA, yA), (xB, yB), (0, 0, 255), 2)
-        #         i+=1
-        #         continue
-        #     cv2.rectangle(frame, (xA, yA), (xB, yB), (0, 255, 0), 2)
-        #     i+=1
+        i = 0
+        for (xA, yA, xB, yB) in boxes:
+            if weights[i] < 1 or abs(xB-xA) * abs(yB-yA) > 300 * 300:
+                cv2.rectangle(frame, (xA, yA), (xB, yB), (0, 0, 255), 2)
+                i+=1
+                continue
+            cv2.rectangle(frame, (xA, yA), (xB, yB), (0, 255, 0), 2)
+            i+=1
             
-        cv2.imshow('Persons founded', frame)
+        cv2.imwrite("sources/back/now.png", frame)
+        time.sleep(1000)
 
 # Events controller
 def catchRequest(request):
