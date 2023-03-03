@@ -30,8 +30,10 @@ class Projector:
     def switchWorkingMode(self, mode = None):
         if mode == None:
             pass
-        elif mode == "on/off":
-            self.isWorking = not self.isWorking
+        elif mode == "on":
+            self.isWorking = True
+        elif mode == "off":
+            self.isWorking = False
         elif mode == "freeze/unfreeze":
             self.isFreezed = not self.isFreezed
         elif mode == "rgbon/rgboff":

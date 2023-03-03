@@ -60,65 +60,63 @@ def dmxUpdater():
             i.update()
             for chnl in range(2, 14):
                 dmxToSend[i.adressData[chnl]] = int(i.DGD[chnl])
-        # print(dmxToSend)
         sender[1].dmx_data = dmxToSend[1:513]
 
-# Person OpenCV searcher
-
-hog = cv2.HOGDescriptor()
-hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
-
-
-def personFollower():
-    cap = cv2.VideoCapture(0)
-    while True:
-        ret, frame = cap.read()
-        print(frame)
-        frame = cv2.resize(frame, (640, 480))
-        
-        boxes, weights = hog.detectMultiScale(frame, winStride=(8,8))
-        boxes = np.array([[x, y, x + w, y + h] for (x, y, w, h) in boxes])    
-        print(boxes, weights)
-
-        i = 0
-        for (xA, yA, xB, yB) in boxes:
-            if weights[i] < 1 or abs(xB-xA) * abs(yB-yA) > 300 * 300:
-                cv2.rectangle(frame, (xA, yA), (xB, yB), (0, 0, 255), 2)
-                i+=1
-                continue
-            cv2.rectangle(frame, (xA, yA), (xB, yB), (0, 255, 0), 2)
-            i+=1
-            
-        cv2.imwrite("sources/back/now.png", frame)
-        time.sleep(1000)
-
 # Events controller
-def catchRequest(request):
-    print(request)
 
-def oklol(code = 1):
+
+speedChange = 1.0
+totalDimmer = 0.0
+#
+lightTread = None
+
+def catchRequest(request):
+    methodId = request.get("methodId")
+    if methodId == 'start':
+        global lightTread
+        if lightTread is not None:
+            sceneCreatorController.set()
+            lightTread.join()
+            sceneCreatorController.clear()
+        lightTread = threading.Thread(target = sceneCreator, args = [1])
+        lightTread.start()
+    elif methodId == 'quit':
+        sceneCreatorController.set()
+    elif methodId == 'light_power':
+        global totalDimmer
+        totalDimmer = (int(request.get("params")) / 100.0) ** 2
+        for i in Projectors:
+            i.setDimmer(totalDimmer)
+    else:
+        print(request)
+
+sceneCreatorController = threading.Event()
+
+def sceneCreator(code = 1):
+    print("Scenecreator started...")
+    for i in Projectors:
+        i.switchWorkingMode("on")
     if code == 1:
         timeNow = time.perf_counter()
         while True:
-            if time.perf_counter() - timeNow > 2:
+            if sceneCreatorController.is_set():
+                for i in Projectors:
+                    i.switchWorkingMode("off")
+                sceneCreatorController.clear()
+                print("Scenecreator stopped...")
+                break
+            if time.perf_counter() - timeNow > speedChange:
                 timeNow = time.perf_counter()
                 newColor = getRandomColor()
                 for i in Projectors:
                     if i.type == "light":
                         continue
                     i.switchColor(newColor)
-                    i.setDimmer(1.0)
     else:
-        timeNow = time.perf_counter()
-        while True:
-            if time.perf_counter() - timeNow > 2:
-                timeNow = time.perf_counter()
-                print(timeNow, "calling...")
-                personFollower()
         pass
+        # Debug Lines
 
 # Program starts
 
 dmxController = threading.Thread(target = dmxUpdater)
 dmxController.start()
-threading.Thread(target = oklol, args = [2]).start()
