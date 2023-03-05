@@ -1,20 +1,20 @@
 let onColor = '#ffff00';
 let offColor = '#ffffff';
 
-class ButtonContainer {
+class ElementContainer {
     methodId;
     isOn;
     isCheckBox;
-    htmlButton;
+    htmlElement;
     params;
     inputEventType;
 
     invertState() {
         if (this.isCheckBox) {
             if (this.isOn) {
-                this.htmlButton.style.background = offColor
+                this.htmlElement.style.background = offColor
             } else {
-                this.htmlButton.style.background = onColor
+                this.htmlElement.style.background = onColor
             }
 
             this.isOn = !this.isOn;
@@ -70,19 +70,26 @@ class ButtonContainer {
     constructor(htmlButton, options, methodId, params = []) {
         this.setInputEventType()
         this.isOn = false
-        this.htmlButton = htmlButton
+        this.htmlElement = htmlButton
         this.params = params
         this.methodId = methodId
         this.isCheckBox = options.isCheckBox
 
-        this.htmlButton.addEventListener(this.inputEventType, this)
-        this.htmlButton.value = options.name
+        this.htmlElement.addEventListener(this.inputEventType, this)
     }
 }
 
-class SliderContainer extends ButtonContainer {
+class ButtonContainer extends ElementContainer {
     constructor(htmlButton, options, methodId, params = []) {
-        super(htmlButton, options, methodId, params);
+        super(htmlButton, options, methodId, params)
+        this.htmlElement.value = options.name
+    }
+}
+
+class SliderContainer extends ElementContainer {
+    constructor(htmlElement, options, methodId, params = []) {
+        super(htmlElement, options, methodId, params);
+        this.htmlElement.value = htmlElement.value
     }
 
     setInputEventType() {
@@ -90,7 +97,7 @@ class SliderContainer extends ButtonContainer {
     }
 
     processClick() {
-        this.params = [this.htmlButton.value]
+        this.params = [this.htmlElement.value]
         super.processClick();
     }
 }
